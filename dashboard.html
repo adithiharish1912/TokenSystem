@@ -1,0 +1,99 @@
+
+{% extends "base.html" %}
+{% block title %}Admin Dashboard | OTsystem{% endblock %}
+
+{% block content %}
+<section class="dashboard-heading">
+    <div>
+        <span class="eyebrow">HOSPITAL ADMINISTRATION</span>
+        <h1>Patient Dashboard</h1>
+        <p>Manage patient registrations and consultation progress.</p>
+    </div>
+    <a href="{{ url_for('admin_logout') }}" class="btn secondary">Log Out</a>
+</section>
+
+<section class="stats-grid">
+    <article class="stat-card">
+        <p>Total patients</p>
+        <h2>{{ stats.total }}</h2>
+    </article>
+    <article class="stat-card">
+        <p>Waiting</p>
+        <h2>{{ stats.waiting }}</h2>
+    </article>
+    <article class="stat-card">
+        <p>In progress</p>
+        <h2>{{ stats.in_progress }}</h2>
+    </article>
+    <article class="stat-card">
+        <p>Completed</p>
+        <h2>{{ stats.completed }}</h2>
+    </article>
+</section>
+
+<section class="panel table-panel">
+    <div class="table-heading">
+        <div>
+            <h2>Registered Patients</h2>
+            <p>Update each patient's queue status below.</p>
+        </div>
+        <a href="{{ url_for('register') }}" class="btn primary">+ New Patient</a>
+    </div>
+
+    {% if patients %}
+    <div class="table-wrapper">
+        <table>
+            <thead>
+                <tr>
+                    <th>Token</th>
+                    <th>Patient</th>
+                    <th>Department</th>
+                    <th>Registered</th>
+                    <th>Status</th>
+                    <th>Update Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for patient in patients %}
+                <tr>
+                    <td><strong>{{ patient['token'] }}</strong></td>
+                    <td>
+                        <strong>{{ patient['name'] }}</strong>
+                        <small>{{ patient['phone'] }}</small>
+                    </td>
+                    <td>{{ patient['department'] }}</td>
+                    <td>{{ patient['created_at'] }}</td>
+                    <td>
+                        <span class="status-badge {{ patient['status']|lower|replace(' ', '-') }}">
+                            {{ patient['status'] }}
+                        </span>
+                    </td>
+                    <td>
+                        <form class="status-form"
+                              method="POST"
+                              action="{{ url_for('update_patient', patient_id=patient['id']) }}">
+                            <select name="status" aria-label="New status for {{ patient['name'] }}">
+                                {% for status in statuses %}
+                                <option value="{{ status }}"
+                                    {% if patient['status'] == status %}selected{% endif %}>
+                                    {{ status }}
+                                </option>
+                                {% endfor %}
+                            </select>
+                            <button type="submit" class="btn small-btn">Save</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <div class="empty-state">
+        <h3>No patients registered yet</h3>
+        <p>New patient registrations will appear here.</p>
+        <a href="{{ url_for('register') }}" class="btn primary">Register Patient</a>
+    </div>
+    {% endif %}
+</section>
+{% endblock %}

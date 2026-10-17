@@ -1,0 +1,83 @@
+
+{% extends "base.html" %}
+{% block title %}Patient Registration | OTsystem{% endblock %}
+
+{% block content %}
+<section class="page-heading">
+    <span class="eyebrow">PATIENT SERVICES</span>
+    <h1>Patient Registration</h1>
+    <p>Enter the patient's details to generate a hospital token.</p>
+</section>
+
+<section class="panel form-panel">
+    <form method="POST" action="{{ url_for('register') }}">
+        <div class="form-grid">
+            <div class="form-group">
+                <label for="name">Full name</label>
+                <input id="name" type="text" name="name"
+                       maxlength="100" required
+                       value="{{ request.form.get('name', '') }}"
+                       placeholder="Enter full name">
+            </div>
+
+            <div class="form-group">
+                <label for="age">Age</label>
+                <input id="age" type="number" name="age"
+                       min="0" max="120" required
+                       value="{{ request.form.get('age', '') }}"
+                       placeholder="Enter age">
+            </div>
+
+            <div class="form-group">
+                <label for="gender">Gender</label>
+                <select id="gender" name="gender" required>
+                    <option value="">Select gender</option>
+                    {% for option in ['Male', 'Female', 'Other'] %}
+                    <option value="{{ option }}"
+                        {% if request.form.get('gender') == option %}selected{% endif %}>
+                        {{ option }}
+                    </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="phone">Phone number</label>
+                <input id="phone" type="tel" name="phone"
+                       maxlength="20" required
+                       value="{{ request.form.get('phone', '') }}"
+                       placeholder="Enter contact number">
+            </div>
+
+            <div class="form-group full-width">
+                <label for="department">Department</label>
+                <select id="department" name="department" required>
+                    <option value="">Select department</option>
+                    {% for option in [
+                        'General Medicine', 'Cardiology', 'Orthopedics',
+                        'Neurology', 'Pediatrics', 'Dermatology', 'ENT', 'Other'
+                    ] %}
+                    <option value="{{ option }}"
+                        {% if request.form.get('department') == option %}selected{% endif %}>
+                        {{ option }}
+                    </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="form-group full-width">
+                <label for="symptoms">Reason for visit / symptoms</label>
+                <textarea id="symptoms" name="symptoms"
+                          rows="4" maxlength="1000" required
+                          placeholder="Briefly describe the reason for the visit">{{ request.form.get('symptoms', '') }}</textarea>
+            </div>
+        </div>
+
+        <p class="form-note">Please check your information before submitting.</p>
+
+        <button class="btn primary full-button" type="submit">
+            Register and Generate Token
+        </button>
+    </form>
+</section>
+{% endblock %}

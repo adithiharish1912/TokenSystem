@@ -1,0 +1,124 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CarePoint Hospital | Hospital Management System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+    <header class="navbar">
+        <a class="brand" href="{{ url_for('home') }}">✚ CarePoint Hospital</a>
+
+        <nav>
+            <a href="{{ url_for('home') }}">Home</a>
+            <a href="{{ url_for('register') }}">Patient Registration</a>
+            <a href="{{ url_for('patient_status') }}">Check Token</a>
+            <a href="{{ url_for('admin_login') }}">Admin Login</a>
+        </nav>
+    </header>
+
+    <main class="container">
+
+        <section class="hero">
+            <div class="hero-content">
+                <span class="eyebrow">HOSPITAL MANAGEMENT SYSTEM</span>
+
+                <h1>
+                    Welcome to
+                    <span>CarePoint Hospital</span>
+                </h1>
+
+                <p>
+                    A smarter way to manage patient registration,
+                    token queues, and consultation status in one place.
+                </p>
+
+                <div class="actions">
+                    <a class="btn primary" href="{{ url_for('register') }}">
+                        Register a Patient
+                    </a>
+
+                    <a class="btn secondary" href="{{ url_for('patient_status') }}">
+                        Check Token Status
+                    </a>
+                </div>
+            </div>
+
+            <div class="hero-art">
+                <div class="medical-icon">✚</div>
+                <h2>Your Health, Our Priority</h2>
+                <p>Smart care. Better coordination.</p>
+            </div>
+        </section>
+
+        <section class="section-heading">
+            <h2>Hospital Overview</h2>
+            <p>Current patient statistics</p>
+        </section>
+
+        <section class="stats-grid">
+
+            <div class="stat-card">
+                <p>Total Registered Patients</p>
+                <h2>{{ total }}</h2>
+            </div>
+
+            <div class="stat-card">
+                <p>Patients Waiting</p>
+                <h2>{{ waiting }}</h2>
+            </div>
+
+            <div class="stat-card">
+                <p>Consultations In Progress</p>
+                <h2>{{ in_progress }}</h2>
+            </div>
+
+        </section>
+
+        <section class="section-heading">
+            <h2>Our Services</h2>
+            <p>Access the hospital's patient management features</p>
+        </section>
+
+        <section class="feature-grid">
+
+            <article class="feature-card">
+                <h3>Patient Registration</h3>
+                <p>
+                    Register patient details and receive a unique
+                    hospital queue token.
+                </p>
+                <a href="{{ url_for('register') }}">Register now →</a>
+            </article>
+
+            <article class="feature-card">
+                <h3>Queue Management</h3>
+                <p>
+                    Check your token, consultation progress,
+                    and estimated waiting time.
+                </p>
+                <a href="{{ url_for('patient_status') }}">Check status →</a>
+            </article>
+
+            <article class="feature-card">
+                <h3>Admin Dashboard</h3>
+                <p>
+                    View patient records and update consultation
+                    statuses from the admin dashboard.
+                </p>
+                <a href="{{ url_for('admin_login') }}">Admin login →</a>
+            </article>
+
+        </section>
+
+    </main>
+
+    <footer>
+        <p>CarePoint Hospital Management System</p>
+    </footer>
+
+</body>
+</html>

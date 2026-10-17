@@ -1,0 +1,65 @@
+
+{% extends "base.html" %}
+{% block title %}Patient Token Status | OTsystem{% endblock %}
+
+{% block content %}
+<section class="page-heading">
+    <span class="eyebrow">QUEUE TRACKING</span>
+    <h1>Check Your Token</h1>
+    <p>Enter your token number to see the latest recorded status.</p>
+</section>
+
+<section class="panel narrow-panel">
+    <form method="POST" action="{{ url_for('patient_status') }}">
+        <div class="form-group">
+            <label for="token">Patient token number</label>
+            <input id="token" type="text" name="token"
+                   value="{{ token }}" required
+                   placeholder="Example: OT-20261017-001">
+        </div>
+        <button class="btn primary full-button" type="submit">
+            Check Status
+        </button>
+    </form>
+</section>
+
+{% if patient %}
+<section class="panel patient-result">
+    <div class="result-header">
+        <div>
+            <span class="eyebrow">PATIENT TOKEN</span>
+            <h2>{{ patient['token'] }}</h2>
+        </div>
+        <span class="status-badge {{ patient['status']|lower|replace(' ', '-') }}">
+            {{ patient['status'] }}
+        </span>
+    </div>
+
+    <div class="detail-grid">
+        <div class="detail-item">
+            <span>Patient name</span>
+            <strong>{{ patient['name'] }}</strong>
+        </div>
+
+        <div class="detail-item">
+            <span>Department</span>
+            <strong>{{ patient['department'] }}</strong>
+        </div>
+
+        <div class="detail-item">
+            <span>Registration time</span>
+            <strong>{{ patient['created_at'] }}</strong>
+        </div>
+
+        <div class="detail-item">
+            <span>Estimated waiting time</span>
+            <strong>{{ wait_time }}</strong>
+        </div>
+    </div>
+
+    <p class="form-note">
+        Waiting times are estimates, not guarantees. Please follow hospital staff instructions.
+    </p>
+</section>
+{% endif %}
+{% endblock %}
